@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [ -z $WALLET_DIR ]
+then
+	echo "Error: WALLET_DIR not set"
+	exit 1
+fi
+
+genWallet() {
+	name=$1
+	path=${WALLET_DIR}/${name}
+
+	for ext in "vkey" "skey" "addr"
+	do
+		if [ -f ${path}.${ext} ]
+		then
+			echo "File ${path}.${ext} already exists, delete manually before continuing"
+			exit 1
+		fi
+	done
+
+	cardano-cli address key-gen \
+		--verification-key-file ${path}.vkey \
+		--signing-key-file ${path}.skey
+
+	cardano-cli address build \
+		--payment-verification-key-file ${path}.vkey \
+		--out-file ${path}.addr \
+		--testnet-magic $TESTNET_MAGIC
+
+	cat ${path}.addr
+	echo ""
+}
+
+genWallet "wallet1"
+genWallet "wallet2"
+genWallet "wallet3"

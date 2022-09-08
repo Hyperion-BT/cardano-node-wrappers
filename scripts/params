@@ -1,0 +1,1 @@
+cardano-cli query protocol-parameters --testnet-magic $TESTNET_MAGIC

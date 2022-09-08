@@ -1,8 +1,0 @@
-#!/bin/bash
-
-export CARDANO_CONFIG=/data/preprod/config.json
-export CARDANO_TOPOLOGY=/data/preprod/topology.json
-export CARDANO_DATABASE_PATH=/data/preprod/db
-export CARDANO_NODE_SOCKET_PATH=/ipc/node.socket
-
-exec /usr/local/bin/cardano-node run --config $CARDANO_CONFIG --topology $CARDANO_TOPOLOGY --database-path $CARDANO_DATABASE_PATH --socket-path $CARDANO_NODE_SOCKET_PATH --host-addr 0.0.0.0 --port 3001

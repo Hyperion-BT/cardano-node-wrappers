@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+	echo "Error: expected 1 argument"
+fi
+
+name=$1
+
+cardano-cli query utxo \
+	--address $(cat ${WALLET_DIR}/${name}.addr) \
+	--testnet-magic $TESTNET_MAGIC

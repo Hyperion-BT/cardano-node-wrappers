@@ -1,0 +1,24 @@
+# syntax=docker/dockerfile:1
+FROM inputoutput/cardano-node:latest
+
+RUN mkdir -p /data/preprod
+RUN mkdir -p /data/preprod/wallets
+RUN mkdir -p /ipc
+
+COPY ./preprod-config/config.json /data/preprod/config.json
+COPY ./preprod-config/topology.json /data/preprod/topology.json
+COPY ./preprod-config/byron-genesis.json /data/preprod/byron-genesis.json
+COPY ./preprod-config/shelley-genesis.json /data/preprod/shelley-genesis.json
+COPY ./preprod-config/alonzo-genesis.json /data/preprod/alonzo-genesis.json
+
+ENV CARDANO_CONFIG=/data/preprod/config.json
+ENV CARDANO_TOPOLOGY=/data/preprod/topology.json
+ENV CARDANO_DATABASE_PATH=/data/preprod/db
+ENV CARDANO_NODE_SOCKET_PATH=/ipc/node.socket
+ENV WALLET_DIR=/data/preprod/wallets
+ENV TESTNET_MAGIC=1
+
+COPY ./scripts/* /usr/local/bin/
+RUN chmod +x /usr/local/bin/*
+
+ENTRYPOINT ["bash", "/usr/local/bin/entrypoint"]
